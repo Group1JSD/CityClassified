@@ -1,40 +1,31 @@
 package com.cityclassified.Controller;
-import com.cityclassified.Dao.AdminDao;
-import com.cityclassified.model.Admin;
 
-import java.util.Map;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-
+import com.cityclassified.Service.AdminService;
+import com.cityclassified.model.Admin;
+import com.cityclassified.model.CityDetails;
 
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/admins")
 public class AdminController {
-	
-	@Autowired
-	private AdminDao admindao;
-	
-	@PostMapping("/login")
-	//public String adminLogin(@RequestParam String adminEmail, @RequestParam String adminPass) {
-	public String adminLogin(@RequestBody Map<String, String> payload) {
-        String adminEmail = payload.get("adminEmail");
-        String adminPass = payload.get("adminPass");
-        //upper three lines is helpful for testing in JSON format in postman
-        Admin admin = admindao.authenticateAdmin(adminEmail, adminPass);
-        if (admin != null) {
-            return "Login successful for admin: " + admin.getAdminEmail();
+    @Autowired
+    private AdminService adminService;
+
+    @PostMapping("/login")
+    public String login(@RequestBody Admin admin) {
+        Admin authenticatedAdmin = adminService.authenticateAdmin(admin.getAdminEmail(), admin.getAdminPass());
+        if (authenticatedAdmin!= null) {
+            return "Login successful";
         } else {
-            return "Invalid email or password";
+            return "Invalid credentials";
         }
     }
-	@PostMapping("/logout")
-    public String logout() {
-        return "Admin logged out successfully";
+    @GetMapping("/{id}/city-details")
+    public List<CityDetails> getCityDetailsByAdminId(@PathVariable int adminId) {
+        return adminService.getCityDetailsByAdmin(adminId);
     }
 }

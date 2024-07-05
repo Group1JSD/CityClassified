@@ -3,6 +3,8 @@ package com.cityclassified.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.Data;
 
 @Data
@@ -10,35 +12,27 @@ import lombok.Data;
 public class Classifieds {
 	@Id
 	@GeneratedValue
-	private int classFieldId;
-	private int userId;
-	private String userName;
-	private String userEmail;
+	private int classifiedId;
 	private String classifiedTitle;
-	public int getClassFieldId() {
-		return classFieldId;
+	private String description;
+	private String classifiedCategory;
+	private String mobile;
+	private String address;
+	private String cityName;
+	
+	@ManyToOne
+    @JoinColumn(name = "user_Id", nullable=false)
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "city_Id")
+    private CityDetails cityDetails;
+    
+	
+	public int getClassifiedId() {
+		return classifiedId;
 	}
-	public void setClassFieldId(int classFieldId) {
-		this.classFieldId = classFieldId;
-	}
-	public int getUserId() {
-		return userId;
-	}
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
-	public String getUserName() {
-		return userName;
-	}
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-	public String getUserEmail() {
-		return userEmail;
-	}
-	public void setUserEmail(String userEmail) {
-		this.userEmail = userEmail;
-	}
+	
 	public String getClassifiedTitle() {
 		return classifiedTitle;
 	}
@@ -75,9 +69,8 @@ public class Classifieds {
 	public void setCityName(String cityName) {
 		this.cityName = cityName;
 	}
-	private String description;
-	private String classifiedCategory;
-	private String mobile;
-	private String address;
-	private String cityName;
+	public void setClassifiedId(int classifiedId) {
+		this.classifiedId = classifiedId;
+	}
+	
 }

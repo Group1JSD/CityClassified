@@ -1,59 +1,46 @@
 package com.cityclassified.Controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.cityclassified.Dao.UserDao;
+import com.cityclassified.Service.*;
+import com.cityclassified.model.Classifieds;
 import com.cityclassified.model.User;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
-	@Autowired
-	private UserDao userDao;
-	
-	@PostMapping("/login")
-	public String userLogin(@RequestParam String userName, @RequestParam String userPass) {
-        User user = userDao.authenticateUser(userName, userPass);
-        if (user != null) {
-            return "Login successful for user: " + user.getUserName();
+    @Autowired
+    private UserService userService;
+
+    @PostMapping("/login")
+    public String login(@RequestBody User user) {
+        User authenticatedUser = userService.authenticateUser(user.getUserEmail(), user.getUserPass());
+        if (authenticatedUser != null) {
+            return "Login successful";
         } else {
-            return "Invalid username or password";
+            return "Invalid credentials";
         }
     }
-	@PostMapping("/logout")
-    public String logout() {
-        return "User logged out successfully";
+
+    @PostMapping("/register")
+    public boolean registerUser(@RequestBody User user) {
+        return userService.createUser(user);
     }
-	@PostMapping("/register")
-    public String registerUser(@RequestBody User user) {
-        boolean isCreated = userDao.createUser(user);
-        if (isCreated) {
-            return "User registered successfully";
-        } else {
-            return "User registration failed: Email already in use";
-        }
+    @PutMapping("/{id}")
+    public User updateUser(@PathVariable int id, @RequestBody User user) {
+        user.setUserId(id);
+        return userService.updateUserId(user);
     }
 
     @DeleteMapping("/{userId}")
-    public String deleteUser(@PathVariable int userId) {
-        boolean isDeleted = userDao.deleteUser(userId);
-        if (isDeleted) {
-            return "User deleted successfully";
-        } else {
-            return "User deletion failed: User not found";
-        }
+    public boolean deleteUser(@PathVariable int userId) {
+        return userService.deleteUser(userId);
     }
-    @GetMapping("/test")
-    public String test() {
-        return "Application is running";
-        //this code is for testing purpose only
+    @GetMapping("/{id}/classifieds")
+    public List<Classifieds> getClassifiedsByUser(@PathVariable int id) {
+        return userService.getClassifiedsByUserId(id);
     }
 }
