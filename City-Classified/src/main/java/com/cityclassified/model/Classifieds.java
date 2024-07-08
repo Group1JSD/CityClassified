@@ -28,10 +28,10 @@ public class Classifieds {
     @JoinColumn(name = "city_Id")
     private CityDetails cityDetails;
     
-	
-	public int getClassifiedId() {
+    public int getClassifiedId() {
 		return classifiedId;
 	}
+	
 	
 	public String getClassifiedTitle() {
 		return classifiedTitle;
@@ -69,8 +69,6 @@ public class Classifieds {
 	public void setCityName(String cityName) {
 		this.cityName = cityName;
 	}
-	public void setClassifiedId(int classifiedId) {
-		this.classifiedId = classifiedId;
-	}
+	
 	
 }
