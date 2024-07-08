@@ -1,5 +1,6 @@
 package com.cityclassified.Service;
 
+import com.cityclassified.Exception.UserNotFoundException;
 import com.cityclassified.Repository.UserRepository;
 import com.cityclassified.model.Classifieds;
 import com.cityclassified.model.User;
@@ -55,4 +56,20 @@ public class UserService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	public User updateUser(User user) throws UserNotFoundException {
+        // Check if the user exists
+        Optional<User> existingUser = userRepository.findById(user.getUserId());
+        if (!existingUser.isPresent()) {
+            throw new UserNotFoundException("User not found with id: " + user.getUserId());
+        }
+
+        // Update user details
+        User updatedUser = existingUser.get();
+        updatedUser.setUserName(user.getUserName());
+        updatedUser.setUserEmail(user.getUserEmail());
+        updatedUser.setUserPass(user.getUserPass());
+
+        // Save the updated user
+        return userRepository.save(updatedUser);
+    }
 }

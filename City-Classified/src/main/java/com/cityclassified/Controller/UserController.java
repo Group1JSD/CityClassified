@@ -1,5 +1,6 @@
 package com.cityclassified.Controller;
 
+import com.cityclassified.Exception.UserNotFoundException;
 import com.cityclassified.Service.*;
 import com.cityclassified.model.Classifieds;
 import com.cityclassified.model.User;
@@ -7,6 +8,8 @@ import com.cityclassified.model.User;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -29,10 +32,17 @@ public class UserController {
     public boolean registerUser(@RequestBody User user) {
         return userService.createUser(user);
     }
-    @PutMapping("/{id}")
-    public User updateUser(@PathVariable int id, @RequestBody User user) {
-        user.setUserId(id);
-        return userService.updateUserId(user);
+    @PutMapping("/{userId}")
+    public ResponseEntity<User> updateUser(@PathVariable int userId, @RequestBody User user) {
+        try {
+            user.setUserId(userId);
+            User updatedUser = userService.updateUser(user);
+            return ResponseEntity.ok(updatedUser);
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 
     @DeleteMapping("/{userId}")

@@ -23,7 +23,7 @@ public class CityDetails {
     private String address;
     
     @ManyToOne
-    @JoinColumn(name = "admin_Id", nullable=false)
+    @JoinColumn(name = "adminId", nullable=false)
     private Admin admin;
 
     public CityDetails() {

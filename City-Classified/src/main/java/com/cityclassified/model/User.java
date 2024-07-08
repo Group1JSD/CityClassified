@@ -45,6 +45,18 @@ public class User {
 	public String getUserPass() {
 		return userPass;
 	}
+	public User() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public User(int userId, String userName, String userEmail, String userPass, List<Classifieds> classifieds) {
+		super();
+		this.userId = userId;
+		this.userName = userName;
+		this.userEmail = userEmail;
+		this.userPass = userPass;
+		this.classifieds = classifieds;
+	}
 	public void setUserPass(String userPass) {
 		this.userPass = userPass;
 	}

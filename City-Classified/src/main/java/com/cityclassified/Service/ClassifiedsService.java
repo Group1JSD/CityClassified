@@ -3,6 +3,8 @@ package com.cityclassified.Service;
 import com.cityclassified.Repository.ClassifiedsRepository;
 import com.cityclassified.model.Classifieds;
 
+import jakarta.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,10 @@ public class ClassifiedsService {
 
     public List<Classifieds> getAllClassifieds() {
         return classifiedsRepository.findAll();
+    }
+    @Transactional
+    public Classifieds saveClassifieds(Classifieds classifieds) {
+        return classifiedsRepository.save(classifieds);
     }
 
     public List<Classifieds> getAllUserClassifieds(int userId) {

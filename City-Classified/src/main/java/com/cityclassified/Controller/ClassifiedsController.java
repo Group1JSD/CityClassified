@@ -15,7 +15,7 @@ public class ClassifiedsController {
     @Autowired
     private ClassifiedsService classifiedsService;
 
-    @GetMapping
+    @GetMapping("/all")
     public List<Classifieds> getAllClassifieds() {
         return classifiedsService.getAllClassifieds();
     }
