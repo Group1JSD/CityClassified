@@ -22,7 +22,7 @@ public class CityDetails {
     private String name;
     private String address;
     
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "adminId", nullable=false)
     private Admin admin;
 

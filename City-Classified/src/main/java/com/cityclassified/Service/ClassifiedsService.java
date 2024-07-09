@@ -18,8 +18,10 @@ public class ClassifiedsService {
     public List<Classifieds> getAllClassifieds() {
         return classifiedsRepository.findAll();
     }
-    @Transactional
+    //@Transactional
     public Classifieds saveClassifieds(Classifieds classifieds) {
+    	//classifieds.setUser(null);
+    	
         return classifiedsRepository.save(classifieds);
     }
 

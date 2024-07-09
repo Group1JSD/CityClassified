@@ -21,12 +21,12 @@ public class Classifieds {
 	private String address;
 	private String cityName;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "user_Id", nullable = false)
+	@ManyToOne(   cascade = CascadeType.ALL)
+	@JoinColumn(name = "userId", nullable = false)
     private User user;
 
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "city_Id")
+	@JoinColumn(name = "cityId")
     private CityDetails cityDetails;
     
     public int getClassifiedId() {

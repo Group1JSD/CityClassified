@@ -27,8 +27,8 @@ public class ClassifiedsController {
 
     @PostMapping("/add")
     public Classifieds addClassified(@RequestBody Classifieds classified) {
-    	boolean isSuccess = ClassifiedsRepository.addClassified(classified);
-        return classified;
+    	return  classifiedsService.saveClassifieds(classified);
+       
     }
 
     @PutMapping("/{classifiedId}")

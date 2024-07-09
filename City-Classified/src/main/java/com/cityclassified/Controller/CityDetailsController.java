@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cityclassified.Service.CityDetailsService;
@@ -22,15 +23,20 @@ public class CityDetailsController {
     @Autowired
     private CityDetailsService cityDetailsService;
 
-    @GetMapping
+    @GetMapping("/all")
     public List<CityDetails> getAllCityDetails() {
         return cityDetailsService.getAllCityDetails();
     }
 
+//    @PostMapping("/addCity")
+//    public CityDetails addCityDetails(@RequestBody CityDetails cityDetails) {
+//        return cityDetailsService.addCityDetails(0, cityDetails);
+//    }
     @PostMapping("/addCity")
     public CityDetails addCityDetails(@RequestBody CityDetails cityDetails) {
         return cityDetailsService.addCityDetails(cityDetails);
     }
+
 
     @PutMapping("/{cityId}")
     public boolean updateCityDetails(@PathVariable int cityId, @RequestBody CityDetails cityDetails) {
